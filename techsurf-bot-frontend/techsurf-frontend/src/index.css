@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* simple white + blue + purple theme */
+body {
+  @apply bg-gradient-to-b from-white via-blue-50 to-purple-50 min-h-screen;
+}
