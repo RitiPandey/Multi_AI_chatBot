@@ -4,7 +4,7 @@ const authMiddleware = require("../utils/authMiddleware");
 const { searchFAQ } = require("../services/contentstackService");
 const { getAnswer } = require("../services/aiClient");
 // const Chat = require("../models/chatModel");
-const Chat = require("../models/chatModel.js");
+const Chat = require("../models/chat.js");
 
 
 //POST /bot/ask
