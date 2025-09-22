@@ -23,15 +23,17 @@ async function getAnswer(provider, query) {
       return completion.choices[0].message.content;
     }
 
-    if (provider === "gemini") {
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-      const result = await model.generateContent(query);
-      return result.response.text();
+
+
+      if (provider === "gemini") {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+      const result = await model.generateContent({ prompt: query });
+      return result?.candidates?.[0]?.content ?? result?.response?.text?.() ?? "No content returned.";
     }
 
     if (provider === "groq") {
       const completion = await groq.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "	llama-3.1-8b-instant",
         messages: [{ role: "user", content: query }],
       });
       return completion.choices[0].message.content;
