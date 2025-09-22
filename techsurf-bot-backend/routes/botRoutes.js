@@ -52,7 +52,7 @@ const router = express.Router();
 const authMiddleware = require("../utils/authMiddleware");
 const { searchFAQ } = require("../services/contentstackService");
 const { getAnswer } = require("../services/aiClient");
-const Chat = require("../models/chatmodel");
+const Chat = require("../models/chatModel");
 
 //POST /bot/ask
 router.post("/ask", authMiddleware, async (req, res) => {
