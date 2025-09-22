@@ -1,27 +1,33 @@
+// server/src/stream.js
 import 'dotenv/config';
 import express from 'express';
 import contentstack from 'contentstack';
 import OpenAI from 'openai';
-import fetch from 'node-fetch'; 
+import fetch from 'node-fetch'; // install node-fetch if you don't have it
 import { randomUUID } from 'crypto';
 
 const router = express.Router();
 
+// Contentstack stack (same as before)
 const Stack = contentstack.Stack({
   api_key: process.env.CONTENTSTACK_API_KEY,
   delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN,
   environment: process.env.CONTENTSTACK_ENVIRONMENT,
 });
 
+// OpenAI + Groq clients
 const openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// Groq client uses same SDK but baseURL to Groq endpoint
 const groqClient = new OpenAI({
   apiKey: process.env.GROQ_API_KEY,
   baseURL: 'https://api.groq.com/openai/v1',
 });
 
+// helper: fetch relevant entries (simple)
 async function fetchRelevantEntries({ contentTypeUid, queryText, limit = 4 }) {
   try {
     const Query = Stack.ContentType(contentTypeUid).Query();
+    // a safe approach: query on title OR location OR description - adjust per your model
     Query.skip(0).limit(limit);
     const [result] = await Query.toJSON().find();
     return result || [];
@@ -31,6 +37,7 @@ async function fetchRelevantEntries({ contentTypeUid, queryText, limit = 4 }) {
   }
 }
 
+// Helper: chunk text into N-character pieces
 function chunkText(text, size = 200) {
   const chunks = [];
   for (let i = 0; i < text.length; i += size) chunks.push(text.slice(i, i + size));

@@ -1,4 +1,17 @@
+// const mongoose = require("mongoose");
+// const chatSchema = new mongoose.Schema({
+//   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+//   question: String,
+//   answer: String,
+//   provider: String,
+//   source: String,
+//   createdAt: { type: Date, default: Date.now }
+// });
+// module.exports = mongoose.model("Chat", chatSchema);
+
+
 const mongoose = require("mongoose");
+
 const chatSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   question: String,
@@ -7,4 +20,6 @@ const chatSchema = new mongoose.Schema({
   source: String,
   createdAt: { type: Date, default: Date.now }
 });
-module.exports = mongoose.model("Chat", chatSchema);
+
+module.exports = mongoose.models.Chat || mongoose.model("Chat", chatSchema);
+
